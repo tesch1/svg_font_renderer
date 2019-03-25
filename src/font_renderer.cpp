@@ -52,15 +52,16 @@ FontRenderer::render_text(const std::string &text, const int size)
   //float bbox[4];  
   //find_total_bbox(bbox, nsvg_image);
 
-	NSVGrasterizer *rast = NULL;
-	int w, h;
-	w = (int)nsvg_image->width;
-	h = (int)nsvg_image->height;
+  NSVGrasterizer *rast = NULL;
+  int w, h;
+  w = (int)nsvg_image->width;
+  h = (int)nsvg_image->height;
 
-	rast = nsvgCreateRasterizer();
+  rast = nsvgCreateRasterizer();
 
   Image *image = new Image();
-  image->resize(w,h);;
+  image->resize(w,h);
+  std::cout<<"Svg: "<<xml<<"\n";
   std::cout<<"Image dims "<<w<<" "<<h<<"\n";
   if(rast == NULL)
   {
@@ -69,14 +70,11 @@ FontRenderer::render_text(const std::string &text, const int size)
   else
   {
     unsigned char *img = &image->m_buffer[0];
-	  nsvgRasterize(rast, nsvg_image, 0,0,1, img, w, h, w*4);
+    nsvgRasterize(rast, nsvg_image, 0,0,1, img, w, h, w*4);
   }
 
-
-  
-
-	nsvgDeleteRasterizer(rast);
-	nsvgDelete(nsvg_image);
+  nsvgDeleteRasterizer(rast);
+  nsvgDelete(nsvg_image);
   return image;
 }
 
@@ -117,7 +115,7 @@ FontRenderer::add_text_path(std::stringstream &ss,
   {
     return;
   }
-   
+
   ss<<"<path ";
   ss<<"d=\""<<m_font_data->m_char_data[character].m_path<<"\" ";
   ss<<"transform=\"translate("<<offset*scale<<" 0) ";

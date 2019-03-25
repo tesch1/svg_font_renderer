@@ -457,7 +457,7 @@ typedef struct NSVGparser
 	float dpi;
 	char pathFlag;
 	char defsFlag;
-  void *font_data;
+	void *font_data;
 } NSVGparser;
 
 static void nsvg__xformIdentity(float* t)

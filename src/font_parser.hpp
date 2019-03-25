@@ -93,7 +93,7 @@ std::vector<std::string>
  
 std::vector<std::string> 
 split(const std::string &s, char delim)
-{   
+{
   std::vector<std::string> elems;
   split(s, delim, elems);
   return elems;
@@ -102,13 +102,13 @@ split(const std::string &s, char delim)
 std::string 
 trim(const std::string& str)
 {
-    size_t first = str.find_first_not_of(' ');
-    if (std::string::npos == first)
-    {
-        return str;
-    }
-    size_t last = str.find_last_not_of(' ');
-    return str.substr(first, (last - first + 1));
+  size_t first = str.find_first_not_of(' ');
+  if (std::string::npos == first)
+  {
+    return str;
+  }
+  size_t last = str.find_last_not_of(' ');
+  return str.substr(first, (last - first + 1));
 }
 
 //
@@ -135,28 +135,28 @@ static void font__parseGlyph(NSVGparser* p, const char** attr)
   FontData *font = (FontData*) p->font_data;
   CharacterData character;
   int att_count = 0;
-	for (int i = 0; attr[i]; i += 2) 
+  for (int i = 0; attr[i]; i += 2) 
   {
-		if (strcmp(attr[i], "d") == 0) 
+    if (strcmp(attr[i], "d") == 0) 
     {
       character.m_path = std::string(attr[i+1]); 
       att_count++;
-		} 
+    } 
     else if (strcmp(attr[i], "glyph-name") == 0) 
     {
       character.m_name = std::string(attr[i+1]); 
       att_count++;
-		} 
+    } 
     else if (strcmp(attr[i], "unicode") == 0) 
     {
       character.m_unicode = std::string(attr[i+1]); 
       att_count++;
-		} 
+    } 
     else if (strcmp(attr[i], "horiz-adv-x") == 0) 
     {
       character.m_advance = std::stoi(attr[i+1]); 
       att_count++;
-		} 
+    } 
   }
   //
   // only add this if its complete
@@ -205,99 +205,99 @@ static void font__parseFontFace(NSVGparser* p, const char** attr)
 {
   FontData *font = (FontData*) p->font_data;
   FontAttributes &atts = font->m_atts;
-	for (int i = 0; attr[i]; i += 2) 
+  for (int i = 0; attr[i]; i += 2) 
   {
-		if (strcmp(attr[i], "font-family") == 0) 
+    if (strcmp(attr[i], "font-family") == 0) 
     {
       atts.m_font_family = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "font-weight") == 0) 
     {
       atts.m_font_weight = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "font-stretch") == 0) 
     {
       atts.m_font_stretch = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "units-per-em") == 0) 
     {
       atts.m_units_per_em = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "panose-1") == 0) 
     {
       atts.m_panose_1 = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "ascent") == 0) 
     {
       atts.m_ascent = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "descent") == 0) 
     {
       atts.m_descent = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "x-height") == 0) 
     {
       atts.m_x_height = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "cap-height") == 0) 
     {
       atts.m_cap_height = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "bbox") == 0) 
     {
       atts.m_bbox = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "underline-thickness") == 0) 
     {
       atts.m_underline_thickness = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "underline-position") == 0) 
     {
       atts.m_underline_position = attr[i+1];
-		} 
+    } 
     else if (strcmp(attr[i], "unicode-range") == 0) 
     {
       atts.m_unicode_range = attr[i+1];
-		} 
+    } 
   }
    
 }
 static void font__startElement(void* ud, const char* el, const char** attr)
 {
-	NSVGparser* p = (NSVGparser*)ud;
+  NSVGparser* p = (NSVGparser*)ud;
 
-	//std::cout<<"element "<<el<<"\n";
-	if (strcmp(el, "g") == 0) 
+  //std::cout<<"element "<<el<<"\n";
+  if (strcmp(el, "g") == 0) 
   {
-		nsvg__pushAttr(p);
-		nsvg__parseAttribs(p, attr);
-	} 
+    nsvg__pushAttr(p);
+    nsvg__parseAttribs(p, attr);
+  } 
   else if (strcmp(el, "path") == 0) 
   {
-		if (p->pathFlag)	// Do not allow nested paths.
-			return;
-		nsvg__pushAttr(p);
-		nsvg__parsePath(p, attr);
-		nsvg__popAttr(p);
-	} 
+    if (p->pathFlag)	// Do not allow nested paths.
+      return;
+    nsvg__pushAttr(p);
+    nsvg__parsePath(p, attr);
+    nsvg__popAttr(p);
+  } 
   else if (strcmp(el, "glyph") == 0) 
   {
-		nsvg__pushAttr(p);
-		font__parseGlyph(p, attr);
-		nsvg__popAttr(p);
-	} 
+    nsvg__pushAttr(p);
+    font__parseGlyph(p, attr);
+    nsvg__popAttr(p);
+  } 
   else if (strcmp(el, "hkern") == 0) 
   {
-		nsvg__pushAttr(p);
-		font__parseKern(p, attr);
-		nsvg__popAttr(p);
-	} 
+    nsvg__pushAttr(p);
+    font__parseKern(p, attr);
+    nsvg__popAttr(p);
+  } 
   else if (strcmp(el, "font-face") == 0) 
   {
-		nsvg__pushAttr(p);
-		font__parseFontFace(p, attr);
-		nsvg__popAttr(p);
-	} 
+    nsvg__pushAttr(p);
+    font__parseFontFace(p, attr);
+    nsvg__popAttr(p);
+  } 
 }
 
 int font__parseXML(char* input,
@@ -306,28 +306,28 @@ int font__parseXML(char* input,
                    void (*contentCb)(void* ud, const char* s),
                    void* ud)
 {
-	char* s = input;
-	char* mark = s;
-	int state = NSVG_XML_CONTENT;
-	while (*s) {
-		if (*s == '<' && state == NSVG_XML_CONTENT) {
-			// Start of a tag
-			*s++ = '\0';
-			nsvg__parseContent(mark, contentCb, ud);
-			mark = s;
-			state = NSVG_XML_TAG;
-		} else if (*s == '>' && state == NSVG_XML_TAG) {
-			// Start of a content or new tag.
-			*s++ = '\0';
-			nsvg__parseElement(mark, startelCb, endelCb, ud);
-			mark = s;
-			state = NSVG_XML_CONTENT;
-		} else {
-			s++;
-		}
-	}
+  char* s = input;
+  char* mark = s;
+  int state = NSVG_XML_CONTENT;
+  while (*s) {
+    if (*s == '<' && state == NSVG_XML_CONTENT) {
+      // Start of a tag
+      *s++ = '\0';
+      nsvg__parseContent(mark, contentCb, ud);
+      mark = s;
+      state = NSVG_XML_TAG;
+    } else if (*s == '>' && state == NSVG_XML_TAG) {
+      // Start of a content or new tag.
+      *s++ = '\0';
+      nsvg__parseElement(mark, startelCb, endelCb, ud);
+      mark = s;
+      state = NSVG_XML_CONTENT;
+    } else {
+      s++;
+    }
+  }
 
-	return 1;
+  return 1;
 }
 
 void build_kerning_map(FontData *font)
@@ -367,15 +367,15 @@ void build_kerning_map(FontData *font)
 
 FontData* fontParse(char* input, bool use_kerning)
 {
-	NSVGparser* p;
+  NSVGparser* p;
 
-	p = nsvg__createParser();
-	if (p == NULL) {
-		return NULL;
-	}
+  p = nsvg__createParser();
+  if (p == NULL) {
+    return NULL;
+  }
   FontData *font = new FontData();
   p->font_data = font;
-	font__parseXML(input, 
+  font__parseXML(input, 
                  font__startElement, 
                  nsvg__endElement, 
                  nsvg__content, 
@@ -386,17 +386,17 @@ FontData* fontParse(char* input, bool use_kerning)
     build_kerning_map(font);
   }
 
-	nsvg__deleteParser(p);
+  nsvg__deleteParser(p);
 
   return font;
 }
 
 FontData* fontParseFromFile(const char* filename, bool use_kerning)
 {
-	FILE* fp = NULL;
-	size_t size;
-	char* data = NULL;
-	FontData* font= NULL;
+  FILE* fp = NULL;
+  size_t size;
+  char* data = NULL;
+  FontData* font= NULL;
   bool error = false;
   while(true)
   {
@@ -434,7 +434,7 @@ FontData* fontParseFromFile(const char* filename, bool use_kerning)
     if (font) delete font;
     return NULL;
   }
-	return font;
+  return font;
 }
 
 #endif
